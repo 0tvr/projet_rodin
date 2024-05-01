@@ -5,7 +5,7 @@ int btnHeight = 40;
 int rslt=0;
 
 void setup() {
-  size(1440,720);
+  size(1080,720);
   textSize(20);
 }
 
@@ -24,6 +24,7 @@ void draw() {
   drawButton(btnX+400, btnY+150, "Tondeuse");
 
   drawInputBox();
+  drawInputBox2();
 }
 
 void drawButton(int x, int y, String label) {
@@ -41,6 +42,7 @@ void mousePressed() {
       addTime(5);
     } else if (mouseY > btnY + 50 && mouseY < btnY + 90) {
       addTime(30);
+      dishWasher();
     } else if (mouseY > btnY + 100 && mouseY < btnY + 140) {
       addTime(60);
     } else if (mouseY > btnY + 200 && mouseY < btnY + 320) {
@@ -49,18 +51,27 @@ void mousePressed() {
   
   
   }
-  // Gérer le focus du champ de texte
-    if (mouseX > 200 && mouseX < 500 && mouseY > 80 && mouseY < 120) {
-      focus = true;
+  // Gérer le  du champ de texte
+    if (mouseX > 200 && mouseX < 350 && mouseY > 80 && mouseY < 120) {
+      focusInputHour= true;
     } else {
-      focus = false;
+      focusInputHour = false;
+    }
+    if (mouseX > 400 && mouseX < 750 && mouseY > 80 && mouseY < 120) {
+      focusInputMinute = true;
+    } else {
+      focusInputMinute = false;
     }
   // Première condition pour le bouton "Machinelaver"
   if (mouseX > btnX + 200 && mouseX < btnX + 200 + btnWidth && mouseY > btnY + 100 && mouseY < btnY + 100 + btnHeight) {
-    heureeeee = int(inputText);
-    println(heureeeee);
-    DSprog(heureeeee,2);
-    focus = true; // Active le focus sur la zone de saisie
+    if(checkInput(int(inputHour), int(inputMinute))==true){
+      scheduleTime = (int(inputHour)*60)%1440+(int(inputMinute))%60;
+      DSprog(scheduleTime,0);
+      focusInputMinute = true;
+    }else{
+      inputHour="MSG_ERR";
+      inputMinute="MSG_ERR";
+    }
   }
   // Deuxième condition pour le bouton "Lavelinge"
   else if (mouseX > btnX + 200 && mouseX < btnX + 200 + btnWidth && mouseY > btnY + 150 && mouseY < btnY + 150 + btnHeight) {
@@ -74,4 +85,14 @@ void mousePressed() {
   else if (mouseX > btnX + 400 && mouseX < btnX + 400 + btnWidth && mouseY > btnY + 150 && mouseY < btnY + 150 + btnHeight) {
     println("AOAO");
   }
+}
+
+boolean checkInput(int inputHour, int inputMinute){
+  if(inputMinute>=60){
+    return false;
+  }
+  if(inputHour>=24){
+    return false;
+  }
+  return true;
 }

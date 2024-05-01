@@ -1,37 +1,67 @@
-String inputText = ""; // Texte saisi par l'utilisateur
-boolean focus = false; // Si le champ d'entrée a le focus
-int heureeeee=0;
+String inputHour = ""; // Texte saisi par l'utilisateur
+String inputMinute = ""; // Texte saisi par l'utilisateur
+boolean focusInputHour = false; // Si le champ d'entrée a le focusInputHoutInputHout
+boolean focusInputMinute = false;
+int scheduleTime=0;
 
 
 void drawInputBox() {
   // Dessiner le champ de texte
   stroke(0);
   fill(255);
-  rect(200, 80, 300, 40);
-
+  rect(200, 80, 150, 40);
   fill(0);
-  if (focus) {
-    text(inputText + "|", 210, 110); // Affiche un curseur clignotant
+  if (focusInputHour) {
+    text(inputHour + "|", 210, 110); // Affiche un curseur clignotant
   } else {
-    text(inputText, 210, 110);
+    text(inputHour, 210, 110);
+  }
+}
+void drawInputBox2() {
+  // Dessiner le champ de texte
+  stroke(0);
+  fill(255);
+  rect(400, 80, 150, 40);
+  fill(0);
+  if (focusInputMinute) {
+    text(inputMinute + "|", 410, 110); // Affiche un curseur clignotant
+  } else {
+    text(inputMinute, 410, 110);
   }
 }
 
 void keyPressed() {
-  if (focus) {
+  if (focusInputHour) {
     if (keyCode == BACKSPACE) {
-      if (inputText.length() > 0) {
-        inputText = inputText.substring(0, inputText.length() - 1);
+      if (inputHour.length() > 0) {
+        inputHour = inputHour.substring(0, inputHour.length() - 1);
       }
     } else if (keyCode == ENTER || keyCode == RETURN) {
       // Traitement du texte lorsque l'utilisateur appuie sur Entrée
-      int rslt = int(inputText);
+      int rslt = int(inputHour);
       println("Nombre entier saisi : " + rslt);
-      focus = false;
+      focusInputHour = false;
     } else {
       // Ajoute uniquement les chiffres ou le signe moins (pour les nombres négatifs)
       if ((key >= '0' && key <= '9')) {
-        inputText += key;
+        inputHour += key;
+      }
+    }
+  }
+  if (focusInputMinute) {
+    if (keyCode == BACKSPACE) {
+      if (inputMinute.length() > 0) {
+        inputMinute = inputMinute.substring(0, inputMinute.length() - 1);
+      }
+    } else if (keyCode == ENTER || keyCode == RETURN) {
+      // Traitement du texte lorsque l'utilisateur appuie sur Entrée
+      int rslt2 = int(inputMinute);
+      println("Nombre entier saisi : " + rslt2);
+      focusInputMinute = false;
+    } else {
+      // Ajoute uniquement les chiffres ou le signe moins (pour les nombres négatifs)
+      if ((key >= '0' && key <= '9')) {
+        inputMinute += key;
       }
     }
   }

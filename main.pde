@@ -11,7 +11,7 @@ void addTime(int timeToAdd){
     time+=timeToAdd;
   }
   println("Il est",time/60,"H",time%60);
-  printDay();
+  //printDay();
 }
 
 void printDay(){

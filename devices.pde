@@ -4,7 +4,7 @@ int dryerState = 0;
 int mowerState=0;
 
 boolean[] machineProg={false,false,false, false};//dish, dryer, washer, mower
-int[] machineSchedule={0,0,0, 0};//dish, dryer, washer, mower
+int[] machineSchedule={0,0,0,0};//dish, dryer, washer, mower heure de programmation
 
 int timeSlotStart=1320;
 int timeSlotEnd=360;
@@ -14,7 +14,7 @@ void DSprog(int scheduleTime, int machine){
   if((currentDay==5 ||currentDay==6) && machine !=3){
     machineSchedule[machine]=scheduleTime;
     machineProg[machine]=true;
-    println("la machine a laver est programmée à :",time/60,time%60);
+    println("la machine a laver est programmée à :",scheduleTime/60,"H",scheduleTime%60);
   }else{
     if(machine>=0&&machine<=3){
       timeSlotStart=1320;
@@ -32,13 +32,17 @@ void DSprog(int scheduleTime, int machine){
 }
 
 void dishWasher(){
-  if(machineProg[0]==true && time%1440>=machineSchedule[0]){  
-    if(dishWasherState==3){
+  //println(machineProg[0],machineSchedule[0]);
+  if(machineProg[0]==true && time%1440>=machineSchedule[0]){
+    
+    if(abs(time-machineSchedule[0])>=30 && dishWasherState==3){
       dishWasherState=0;
       machineProg[0]=false;
+      println("finito pipo");
     }
     else{
       dishWasherState+=1;
+      println(dishWasherState);
     }
   }
 }
