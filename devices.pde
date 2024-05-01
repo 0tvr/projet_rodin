@@ -30,22 +30,26 @@ void DSprog(int scheduleTime, int machine){
     }
   } 
 }
+//variable qui garde le temps qui reste
+//fonction qui décompte le temps restant à partir du moment où la machine à starté
 
 void dishWasher(){
-  //println(machineProg[0],machineSchedule[0]);
-  if(machineProg[0]==true && time%1440>=machineSchedule[0]){
-    
-    if(abs(time-machineSchedule[0])>=30 && dishWasherState==3){
-      dishWasherState=0;
-      machineProg[0]=false;
-      println("finito pipo");
-    }
-    else{
-      dishWasherState+=1;
-      println(dishWasherState);
+  println("etat de la machine:",machineProg[0]);
+  if(machineProg[0]==true && ((time%1440>=machineSchedule[0])||(machineSchedule[0]<1439 && time<360))){
+    if((((time % 1440 >= 1320 && time % 1440 < 1440) || (time % 1440 >= 0 && time % 1440 <= 360)))){
+      if(abs(time-machineSchedule[0])>=30 && dishWasherState==4){
+        dishWasherState=0;
+        machineProg[0]=false;
+        println("finito pipo");
+      }
+      else{
+        dishWasherState+=1;
+        println(dishWasherState);
+      }
     }
   }
 }
+
 void dryer(){
   if(machineProg[1]==true && time%1440>=machineSchedule[1]){  
     if(dryerState==1){
