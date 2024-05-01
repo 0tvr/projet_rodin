@@ -9,13 +9,16 @@ void setup() {
   textSize(20);
 }
 
+
+
+
 void draw() {
   background(255);
   drawButton(btnX, btnY, "Add 5");
   drawButton(btnX, btnY + 50, "Add 30");
   drawButton(btnX, btnY + 100, "Add 60");
   //
-  drawButton(btnX+200, btnY+100, "Machinelaver");
+  drawButton(btnX+200, btnY+100, "Lavoir");
   drawButton(btnX+200, btnY+150, "Lavelinge");
   drawButton(btnX+400, btnY+100, "Sechoir");
   drawButton(btnX+400, btnY+150, "Tondeuse");
