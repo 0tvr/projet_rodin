@@ -10,6 +10,7 @@ void addTime(int timeToAdd){
   }else{
     time+=timeToAdd;
   }
+  timepassed += timeToAdd;
   
   println("Il est",time/60,"H",time%60);
   //printDay();
