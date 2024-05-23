@@ -2,6 +2,7 @@ int dishWasherState = 0;//off
 int washingMachineState = 0;
 int dryerState = 0;
 int mowerState=0;
+int timepassed=0;
 
 boolean[] machineProg={false,false,false, false};//dish, dryer, washer, mower
 int[] machineSchedule={0,0,0,0};//dish, dryer, washer, mower heure de programmation
@@ -33,22 +34,42 @@ void DSprog(int scheduleTime, int machine){
 //variable qui garde le temps qui reste
 //fonction qui décompte le temps restant à partir du moment où la machine à starté
 
-void dishWasher(){
-  println("etat de la machine:",machineProg[0]);
-  if(machineProg[0]==true && ((time%1440>=machineSchedule[0])||(machineSchedule[0]<1439 && time<360))){
-    if((((time % 1440 >= 1320 && time % 1440 < 1440) || (time % 1440 >= 0 && time % 1440 <= 360)))){
-      if(abs(time-machineSchedule[0])>=30 && dishWasherState==4){
-        dishWasherState=0;
-        machineProg[0]=false;
-        println("finito pipo");
-      }
-      else{
-        dishWasherState+=1;
-        println(dishWasherState);
-      }
+void dishWasher() {
+    println("etat de la machine:", machineProg[0]);
+
+    // Heure actuelle en minutes depuis minuit
+    int currentTime = time % 1440;
+    // Heure de programmation ajustée pour le passage de minuit
+    int scheduledTime = machineSchedule[0];
+
+    // Vérifie si la machine est programmée
+    if (machineProg[0]) {
+        // Vérifie si l'heure actuelle ou programmée est dans la période nocturne
+        if ((currentTime >= 1320 || currentTime < 360) || (scheduledTime >= 1320 || scheduledTime < 360)) {
+            // Assurez-vous que la machine ne s'active pas prématurément
+            if (!(scheduledTime < 360 && currentTime >= 1320)) {
+                // Vérifie si 30 minutes se sont écoulées
+                if (timepassed >= 30) {
+                    dishWasherState += 1;
+                    println("cycle: ", dishWasherState);
+
+                    // Réinitialise timepassed après le traitement
+                    timepassed = 0;
+
+                    // Réinitialisation du lave-vaisselle après 4 cycles
+                    if (dishWasherState >= 4) {
+                        dishWasherState = 0;
+                        machineProg[0] = false;
+                        println("finito pipo");
+                    }
+                }
+            }
+        }
     }
-  }
 }
+
+
+
 
 void dryer(){
   if(machineProg[1]==true && time%1440>=machineSchedule[1]){  
